@@ -1,12 +1,11 @@
 plugins {
-    id "io.swagger.core.v3.swagger-gradle-plugin" version "2.2.20"
     id "java"
     id 'io.quarkus'
 }
 
 repositories {
-    mavenLocal()
     mavenCentral()
+    mavenLocal()
 }
 
 dependencies {

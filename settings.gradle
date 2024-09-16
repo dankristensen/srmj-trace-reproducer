@@ -1,8 +1,8 @@
 pluginManagement {
     resolutionStrategy {
         repositories {
-            mavenLocal()
             mavenCentral()
+            mavenLocal()
         }
     }
     plugins {
