@@ -1,0 +1,12 @@
+pluginManagement {
+    resolutionStrategy {
+        repositories {
+            mavenLocal()
+            mavenCentral()
+        }
+    }
+    plugins {
+        id "${quarkusPluginId}" version "${quarkusPluginVersion}"
+    }
+}
+rootProject.name = 'srmj-trace-reproducer'

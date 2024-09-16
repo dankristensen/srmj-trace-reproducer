@@ -1,0 +1,73 @@
+plugins {
+    id "io.swagger.core.v3.swagger-gradle-plugin" version "2.2.20"
+    id "java"
+    id 'io.quarkus'
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}") {
+        exclude(group: 'com.ibm.mq', module: 'com.ibm.mq.jakarta.client')
+    }
+    implementation 'io.quarkus:quarkus-resteasy-reactive'
+    implementation 'io.quarkus:quarkus-arc'
+    implementation 'io.quarkus:quarkus-jackson'
+    implementation 'io.quarkus:quarkus-opentelemetry'
+    implementation 'io.quarkus:quarkus-smallrye-health'
+    implementation 'io.quarkus:quarkus-smallrye-jwt'
+    implementation 'io.quarkus:quarkus-micrometer-registry-prometheus'
+    implementation('io.quarkus:quarkus-smallrye-reactive-messaging') {
+        exclude group: 'io.smallrye.reactive', module: 'smallrye-reactive-messaging-jms'
+    }
+    implementation files('libs/smallrye-reactive-messaging-jms-999-SNAPSHOT.jar')
+    implementation group: 'io.smallrye.reactive', name: 'smallrye-reactive-messaging-otel', version: '4.24.0'
+    implementation group: 'io.smallrye.reactive', name: 'smallrye-reactive-messaging-jackson', version: '4.24.0'
+
+    implementation 'io.quarkiverse.micrometer.registry:quarkus-micrometer-registry-otlp:3.2.4'
+
+    implementation group: 'com.ibm.mq', name: 'com.ibm.mq.jakarta.client', version: '9.3.5.0'
+    implementation group: 'jakarta.jms', name: 'jakarta.jms-api', version: '3.1.0'
+
+    implementation 'io.opentelemetry:opentelemetry-extension-trace-propagators'
+
+    implementation group: 'commons-codec', name: 'commons-codec', version: '1.17.1'
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: '2.0.9'
+
+    implementation group: 'org.projectlombok', name: 'lombok', version: '1.18.34'
+    annotationProcessor 'org.projectlombok:lombok:1.18.34'
+
+    testImplementation 'io.quarkus:quarkus-junit5'
+    testImplementation 'io.rest-assured:rest-assured'
+    testImplementation 'io.quarkus:quarkus-junit5-mockito'
+    testImplementation group: 'org.mockito', name: 'mockito-inline', version: '5.2.0'
+    testImplementation group: 'io.smallrye.reactive', name: 'smallrye-reactive-messaging-in-memory', version: '4.24.0'
+    testImplementation 'com.tngtech.archunit:archunit-junit5:1.2.1'
+}
+
+group 'dk.mycorp.srmj'
+version '1.0.0-SNAPSHOT'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+test {
+    systemProperty "java.util.logging.manager", "org.jboss.logmanager.LogManager"
+    testLogging.showStandardStreams = true
+
+    useJUnitPlatform()
+
+}
+compileJava {
+    options.encoding = 'UTF-8'
+    options.compilerArgs << '-parameters'
+}
+
+compileTestJava {
+    options.encoding = 'UTF-8'
+}
